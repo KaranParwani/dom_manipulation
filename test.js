@@ -81,7 +81,7 @@ create_elements.classList.remove('title');
 create_elements.innerHTML = 'Added by Javascript';
 parent_ele.appendChild(create_elements);
 
-console.log(create_elements);
+// console.log(create_elements);
 
 
 // Adding a new element / child
@@ -108,6 +108,71 @@ const change_button = document.querySelector('#btn');
 const some_heading = document.querySelector('#some_heading');
 
 
-change_button.addEventListener('click', function (events) {
+change_button.addEventListener('click', function () {
+    some_heading.style.fontSize = '10px';
+    some_heading.style.color = 'Red';
     some_heading.innerHTML = 'Got changed';
 }) 
+
+
+// TURN ON OFF THE BULB
+
+const bulb_switch = document.querySelector('#bulbSwitch');
+const bulb = document.querySelector('#bulb');
+
+
+bulb_switch.addEventListener('click', function () {
+    
+    // console.log(bulb.src);
+
+    if (bulb.src.match('off')) {
+        bulb.src = './bulb-on.gif';
+        bulb_switch.innerHTML = 'Turn OFF'; 
+    }
+    
+    else {
+        bulb.src = './bulb-off.gif';
+        bulb_switch.innerHTML = 'Turn ON'; 
+    }
+
+})
+
+// API
+
+URL = 'https://jsonplaceholder.typicode.com/albums/'
+
+page_no = 1
+
+variable_name = 'photos'
+
+const root = document.querySelector('#root');
+const fetch_data = document.querySelector('#fetch');
+
+
+// STEP 1 - fetch method will hit the URL we have passed
+// STEP 2 - with the help of THEN keyword the response will be stored in a temporary variable called response
+// STEP 3 - then whatever data we have to display, Image or something else, a function made by us can be called
+
+fetch_data.addEventListener('click', function () {
+    fetch(URL + page_no + '/' + variable_name).
+        then((response) => response.json()).
+            then((items) => {displayImages(items);
+    });
+});        
+
+
+// FUNCTION TO DISPLAY IMAGES
+
+function displayImages(items) {
+    
+    console.log(items.length);
+
+    for(let i = 0; i < items.length; i++) {
+        
+        const root = document.querySelector('.root');
+        const album_title = document.createElement('h1');
+        
+        album_title.innerHTML = items[i].title;
+        root.appendChild(album_title);       
+    }    
+}
